@@ -1,0 +1,44 @@
+{
+  "user": {
+    "name": "UserService",
+    "host": "http://localhost",
+    "port": "51000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  },
+  "auth": {
+    "name": "AuthService",
+    "host": "http://localhost",
+    "port": "52000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  },
+  "notification": {
+    "name": "NotificationService",
+    "host": "http://localhost",
+    "port": "57000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  },
+  "device": {
+    "name": "DeviceService",
+    "host": "http://localhost",
+    "port": "58000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  },
+  "configuration": {
+    "name": "ConfigurationService",
+    "host": "http://localhost",
+    "port": "59000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  },
+  "keyservice": {
+    "name": "KeyService",
+    "host": "http://localhost",
+    "port": "53000",
+    "apiKey": "zGw234HtjUopK12gAnyChjsK",
+    "apiSecret": "gy4dFjdfgGDgdfhFdhs346Dxv4dAzbt3dfH3ajipLqNsO"
+  }
+}
