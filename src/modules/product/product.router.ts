@@ -9,8 +9,10 @@ const productController = new ProductController();
 router.post('/', productController.createProduct);
 router.get('/', productController.getAllProduct);
 router.get('/newstyle', productController.getNewStyle);
-router.get('/getproductbycategory', productController.getProductByCategoryID);
 router.get('/:id', productController.getProduct);
+
+router.get('/getbycategory/:categoryname', productController.getProductByCategoryID);
+
 router.patch('/:id', productController.updateProduct);
 router.delete('/:id', productController.deleteProduct);
 

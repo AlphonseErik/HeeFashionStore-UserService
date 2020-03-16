@@ -22,7 +22,7 @@ class ProductRepository {
         return false;
     }
 
-    async getList(limit: number = 12, page: number = 1) {
+    async getList(limit: number = 6, page: number = 1) {
         return ProductModel.paginate({
             isDeleted: false,
         }, {
@@ -33,14 +33,19 @@ class ProductRepository {
         });
     }
 
-    async getNewStyleList(limit: number = 12, page: number = 1) {
-        return ProductModel.find({
+    async getNewStyleList(limit: number = 6, page: number = 1) {
+        return ProductModel.paginate({
             isNewest: true,
             isDeleted: false,
-        }).select("-_id -createdAt -updatedAt -__v -isDeleted");
+        }, {
+            sort: { createdAt: -1 },
+            limit: Number(limit),
+            page: Number(page),
+            select: "-_id -createdAt -updatedAt -__v -isDeleted"
+        });
     }
 
-    async getProductByCategoryID(data: any[] = [], limit: number = 12, page: number = 1) {
+    async getProductByCategoryID(data: String, limit: number = 6, page: number = 1) {
         return ProductModel.paginate({
             categoryID: data,
             isDeleted: false,

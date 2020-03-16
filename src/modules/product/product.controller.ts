@@ -34,15 +34,13 @@ class ProductController extends BaseController {
     }
 
     async getProductByCategoryID(req: any, res: any, next: any) {
-        let { limit, page } = req.params;
-        let data = req.body;
+        let { categoryname, limit, page } = req.params;
         try {
-            let findCategory = await this.categoryRepository.findCategory(data.categoryID);
+            let findCategory = await this.categoryRepository.findCategory(categoryname);
             if (!findCategory) {
                 throw new BadRequestException(ERR_GET_CATEGORY_LIST);
             }
-            const categoryID = data.categoryID
-            console.log(categoryID)
+            let categoryID = findCategory.ID;
             let getProduct = await this.productRepository.getProductByCategoryID(categoryID, limit, page);
             if (!getProduct) {
                 throw new BadRequestException(ERR_GET_PRODUCT_LIST);
@@ -90,6 +88,10 @@ class ProductController extends BaseController {
     async getProduct(req: any, res: any, next: any) {
         let { id } = req.params;
         try {
+            console.log(id)
+            if (!id) {
+                throw new BadRequestException(ERR_MISSING_INPUT);
+            }
             let productData = await this.productRepository.getProduct(id);
             if (!productData) {
                 throw new BadRequestException(ERR_GET_PRODUCT_LIST);

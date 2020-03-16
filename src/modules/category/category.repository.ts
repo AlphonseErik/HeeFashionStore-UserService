@@ -22,13 +22,13 @@ class CategoryRepository {
         return false;
     }
 
-    async findCategory(ID: string) {
+    async findCategory(categoryname: string) {
         return CategoryModel.findOne({
-            ID
-        })
+            categoryName: categoryname
+        }).select('-_id -__v')
     }
 
-    async getList(limit: number = 12, page: number = 1) {
+    async getList(limit: number = 6, page: number = 1) {
         return CategoryModel.find({
             isDeleted: false,
         }).select('-_id, -__v');
