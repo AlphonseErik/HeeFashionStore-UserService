@@ -5,12 +5,9 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import fs from 'fs';
 import morgan from 'morgan';
-import https from 'https';
 import helmet from 'helmet'
 import router from './src/router.root';
-import apiAuthenticator from './src/utils/apiAuthenticator';
 
 const app = express();
 
@@ -27,7 +24,7 @@ app.use('/resources', express.static(process.env.NODE_ENV == 'production' ? clie
 
 // Router
 if (process.env.NODE_ENV == 'production') {
-  app.use('/api/v1', apiAuthenticator, router);
+  app.use('/api/v1', router);
 } else {
   app.use('/api/v1', router);
 }
@@ -55,14 +52,12 @@ app.use((error: any, req: any, res: any, next: any) => {
 });
 
 // Mongodb connection
-mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : '', { 
+mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : '', {
   useNewUrlParser: true,
-  useUnifiedTopology: true, 
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log(`Connected to database system.`);
+});
+app.listen(process.env.PORT, () => {
+  console.log(`[HTTP] Server listening in port ${process.env.PORT}.`);
 })
-  .then(() => {
-    console.log(`Connected to database system.`);
-  });
-// process.env.NODE_ENV == 'development' ?
-  app.listen(process.env.PORT, () => {
-    console.log(`[HTTP] Server listening in port ${process.env.PORT}.`);
-  })

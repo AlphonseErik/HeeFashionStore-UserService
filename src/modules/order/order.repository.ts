@@ -5,12 +5,13 @@ class OrderRepository {
   constructor() {
   }
 
-  async create(data: any): Promise<IOrder | null | any> {
+  async create(data: any): Promise<ICreateOrder | null | any> {
     return OrderModel.create({ ...data });
   }
 
-  async getList(limit: number = 12, page: number = 1) {
+  async getList(userID: string, limit: number = 12, page: number = 1) {
     return OrderModel.paginate({
+      userID,
       isDeleted: false,
     }, {
       sort: { createdAt: -1 },

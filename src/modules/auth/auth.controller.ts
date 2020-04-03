@@ -8,7 +8,6 @@ import {
 }
   from './auth.error';
 
-import fetchAPI from './../../utils/fetch';
 import AuthRepository from './auth.repository';
 import { CREATE_TOKEN_FAILED, UPDATE_TOKEN_FAILED, USER_NOT_FOUND, INVALID_TOKEN, UNAUTHORIZE } from './auth.message';
 import UserReponsitory from '../user/user.repository';

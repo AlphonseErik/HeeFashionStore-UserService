@@ -1,9 +1,12 @@
 import express from 'express';
 var router = express.Router();
 import OrderController from './order.controller';
-import apiAuthenticator from '../../utils/apiAuthenticator';
 
+const orderController = new OrderController();
 
+router.post('/', orderController.create);
+
+router.post('/:userid', orderController.getList);
 
 
 export default router;

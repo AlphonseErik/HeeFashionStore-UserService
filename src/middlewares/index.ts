@@ -1,10 +1,10 @@
-import { authorize } from './authorize';
-import { validator, validatorBody,validatorQuery,validatorParam } from './validator';
+import { validator, validatorBody, validatorQuery, validatorParam } from './validator';
+import { verifyAccessToken } from './verifyAccessToken';
 
 export {
-  authorize,
   validator,
   validatorBody,
   validatorQuery,
-  validatorParam
+  validatorParam,
+  verifyAccessToken
 }

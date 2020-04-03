@@ -9,11 +9,10 @@ import {
   ERR_MISSING_INPUT,
 } from './order.error';
 
-import fetchAPI from './../../utils/fetch';
 import OrderRepository from './order.repository';
 import { ERR_CREATE_ORDER } from './order.message';
 
-class AuthController extends BaseController {
+class OrderController extends BaseController {
   orderRepository: OrderRepository;
   constructor() {
     super();
@@ -21,24 +20,62 @@ class AuthController extends BaseController {
   }
 
   async create(req: any, res: any, next: any) {
-    let { productname, quantity, price } = req.query;
+    let { userid: userID } = req.header;
+    let { orderDetail, totalPrice, type, toAddress, userReceive } = req.body;
     try {
-      const createOrder = await this.orderRepository.create({ productname, quantity, price });
+      if (!userID || !orderDetail || !totalPrice) {
+        throw new BadRequestException(ERR_MISSING_INPUT);
+      }
+      if (toAddress && userReceive) {
+        let createOrder = await this.orderRepository.create({
+          userID,
+          orderDetail,
+          totalPrice,
+          type,
+          isDelivery: true,
+          toAddress,
+          userReceive,
+        });
+        if (createOrder!) {
+          throw new BadRequestException(ERR_CREATE_ORDER)
+        }
+        return res.json(
+          createOrder
+        )
+      }
+      let createOrder = await this.orderRepository.create({
+        userID,
+        orderDetail,
+        totalPrice,
+        type,
+        isDelivery: false,
+      });
       if (!createOrder) {
         throw new BadRequestException(ERR_CREATE_ORDER);
       }
-      return res.json({
+      return res.json(
         createOrder
-      })
+      )
     } catch (err) {
       next(err);
     }
   }
 
   async getList(req: any, res: any, next: any) {
+    let { userid: userID } = req.params;
     let { limit, page } = req.query;
-    let orderList = await this.orderRepository.getList(limit, page);
+    try {
+      let orderList = await this.orderRepository.getList(userID, limit, page);
+      if (!orderList) {
+        throw new BadRequestException();
+      }
+      return res.json(
+        orderList
+      )
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
-export default AuthController;
+export default OrderController;

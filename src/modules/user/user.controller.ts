@@ -3,7 +3,6 @@ import randomstring from 'randomstring';
 import UserRepository from './user.repository';
 import moment from 'moment';
 import _ from 'lodash';
-import fetchAPI from './../../utils/fetch';
 import {
   BadRequestException, UnauthorizedException, NotFoundException,
 } from '../../common/error';
@@ -14,6 +13,52 @@ class UserController extends BaseController {
   constructor() {
     super();
     this.userRepository = new UserRepository();
+  }
+
+  async registerSocial(req: any, res: any, next: any) {
+    try {
+      let { userID, email } = req.body;
+      let userIDExist = await this.userRepository.getById(userID, " -password");
+      if (!userIDExist) {
+        let emailExist = await this.userRepository.getUserByEmail(email);
+        if (emailExist)
+          throw new BadRequestException(ErrEmailExist);
+        req.body.type = 0;
+        req.body.username = `ADS${userID}`;
+        req.body.isVerifyEmail = true;
+        req.body.ID = userID;
+        let user = await this.userRepository.create(req.body);
+        return res.json(user)
+      }
+      return res.json(userIDExist)
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async register(req: any, res: any, next: any) {
+    try {
+      let { username, email, mobilePhone } = req.body;
+      if (req.body.type !== undefined) {
+        req.body.type = 0;
+      }
+      let usernameExist = await this.userRepository.getUserByUsername(username);
+      if (usernameExist) {
+        throw new BadRequestException(ErrUserNameExist);
+      }
+      let emailExist = await this.userRepository.getUserByEmail(email);
+      if (emailExist) {
+        throw new BadRequestException(ErrEmailExist);
+      }
+      let mobilePhoneExist = await this.userRepository.getUserByPhone(mobilePhone);
+      if (mobilePhoneExist) {
+        throw new BadRequestException(ErrPhoneIsExist);
+      }
+      let user = await this.userRepository.create(req.body);
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
   }
 
   async getAll(req: any, res: any, next: any) {
@@ -203,52 +248,6 @@ class UserController extends BaseController {
         throw new UnauthorizedException(ErrSignIn);
       }
       return res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async registerSocial(req: any, res: any, next: any) {
-    try {
-      let { userID, email } = req.body;
-      let userIDExist = await this.userRepository.getById(userID, " -password");
-      if (!userIDExist) {
-        let emailExist = await this.userRepository.getUserByEmail(email);
-        if (emailExist)
-          throw new BadRequestException(ErrEmailExist);
-        req.body.type = 0;
-        req.body.username = `ADS${userID}`;
-        req.body.isVerifyEmail = true;
-        req.body.ID = userID;
-        let user = await this.userRepository.create(req.body);
-        return res.json(user)
-      }
-      return res.json(userIDExist)
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async register(req: any, res: any, next: any) {
-    try {
-      let { username, email, mobilePhone } = req.body;
-      if (req.body.type !== undefined) {
-        req.body.type = 0;
-      }
-      let usernameExist = await this.userRepository.getUserByUsername(username);
-      if (usernameExist) {
-        throw new BadRequestException(ErrUserNameExist);
-      }
-      let emailExist = await this.userRepository.getUserByEmail(email);
-      if (emailExist) {
-        throw new BadRequestException(ErrEmailExist);
-      }
-      let mobilePhoneExist = await this.userRepository.getUserByPhone(mobilePhone);
-      if (mobilePhoneExist) {
-        throw new BadRequestException(ErrPhoneIsExist);
-      }
-      let user = await this.userRepository.create(req.body);
-      res.json(user);
     } catch (error) {
       next(error);
     }

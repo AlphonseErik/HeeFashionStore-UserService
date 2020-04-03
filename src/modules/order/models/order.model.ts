@@ -10,19 +10,14 @@ const OrderSchema = new Schema({
     type: String,
     default: uuid.v1,
   },
-  product: [
-    {
-      productName: {
-        type: String,
-      },
-      quantity: {
-        type: Number,
-      },
-      price: {
-        type: Number
-      },
-    }
-  ],
+  userID: {
+    type: String,
+    default: '',
+  },
+  orderDetail: {
+    type: Object,
+    default: '',
+  },
   totalPrice: {
     type: Number,
   },
@@ -32,14 +27,22 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-  },
-  isChange: {
-    type: Boolean,
-    default: false,
+    default: "PENDING",
   },
   isDeleted: {
     type: Boolean,
     default: false,
+  },
+  isDelivery: {
+    type: Boolean,
+    default: false,
+  },
+  toAddress: {
+    type: String,
+  },
+  userReceive: {
+    type: String,
+    default: ''
   }
 }, {
   timestamps: true,
