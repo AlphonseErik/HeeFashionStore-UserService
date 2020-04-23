@@ -6,7 +6,7 @@ const orderController = new OrderController();
 
 router.post('/', orderController.create);
 
-router.post('/:userid', orderController.getList);
+router.get('/getall', orderController.getAll);
 
 
 export default router;

@@ -1,24 +1,19 @@
 import { Types, Document } from 'mongoose';
 export interface IOrder extends Document {
-  ID: String;
-  userID: String,
-  orderDetail: string;
-  totalPrice: string;
-  type: string,
+  ID: string;
+  userID: string,
+  orderDetail: any;
   status: string,
-  isDelete: Boolean,
+  isDelete: boolean,
   isDelivery: boolean,
   toAddress?: string,
   userReceive?: string
 }
 export interface ICreateOrder extends Document {
-  userID: String,
-  orderDetail: string;
-  totalPrice: string;
-  type: string,
+  userID: string,
+  orderDetail: any;
   status: string,
-  isDelete: Boolean,
-  createdAt: Date,
+  isDelete: boolean,
   isDelivery: boolean,
   toAddress?: string,
   userReceive?: string

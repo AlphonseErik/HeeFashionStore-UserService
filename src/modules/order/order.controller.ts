@@ -6,48 +6,53 @@ import BaseController from '../../common/base/controller.base';
 import { NotFoundException, UnauthorizedException, BadRequestException } from '../../common/error/index';
 import { Types } from 'mongoose';
 import {
-  ERR_MISSING_INPUT,
+  ERR_MISSING_INPUT, ERR_USER_NOT_FOUND,
 } from './order.error';
 
 import OrderRepository from './order.repository';
 import { ERR_CREATE_ORDER } from './order.message';
+import UserReponsitory from '../user/user.repository';
 
 class OrderController extends BaseController {
   orderRepository: OrderRepository;
+  userRepository: UserReponsitory;
   constructor() {
     super();
     this.orderRepository = new OrderRepository();
+    this.userRepository = new UserReponsitory();
   }
 
   async create(req: any, res: any, next: any) {
-    let { userid: userID } = req.header;
-    let { orderDetail, totalPrice, type, toAddress, userReceive } = req.body;
+    let { userid: userID } = req.headers;
+    let { orderDetail, toAddress, userReceive } = req.body;
     try {
-      if (!userID || !orderDetail || !totalPrice) {
+      console.log(userID, orderDetail, toAddress, userReceive);
+      if (!userID || !orderDetail) {
         throw new BadRequestException(ERR_MISSING_INPUT);
       }
+      let getUser = await this.userRepository.getById(userID);
+      if (!getUser) {
+        throw new BadRequestException(ERR_USER_NOT_FOUND);
+      }
+      let createOrder = "";
       if (toAddress && userReceive) {
-        let createOrder = await this.orderRepository.create({
+        createOrder = await this.orderRepository.create({
           userID,
           orderDetail,
-          totalPrice,
-          type,
           isDelivery: true,
           toAddress,
           userReceive,
         });
-        if (createOrder!) {
+        if (!createOrder) {
           throw new BadRequestException(ERR_CREATE_ORDER)
         }
         return res.json(
           createOrder
         )
       }
-      let createOrder = await this.orderRepository.create({
+      createOrder = await this.orderRepository.create({
         userID,
         orderDetail,
-        totalPrice,
-        type,
         isDelivery: false,
       });
       if (!createOrder) {
@@ -61,7 +66,7 @@ class OrderController extends BaseController {
     }
   }
 
-  async getList(req: any, res: any, next: any) {
+  async getAll(req: any, res: any, next: any) {
     let { userid: userID } = req.params;
     let { limit, page } = req.query;
     try {

@@ -12,22 +12,15 @@ const OrderSchema = new Schema({
   },
   userID: {
     type: String,
-    default: '',
+    required: true,
   },
   orderDetail: {
     type: Object,
     default: '',
   },
-  totalPrice: {
-    type: Number,
-  },
-  type: {
-    type: String,
-    default: ''
-  },
   status: {
     type: String,
-    default: "PENDING",
+    default: "SUCCESS",
   },
   isDeleted: {
     type: Boolean,
