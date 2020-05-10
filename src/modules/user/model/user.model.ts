@@ -63,7 +63,7 @@ const UserSchema = new Schema({
     timestamps: true,
 });
 
-UserSchema.pre<IUser>('save', function (next) {
+UserSchema.pre<IUser>('save', function (next: any) {
     // only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) { return next(); }
     // Hash password

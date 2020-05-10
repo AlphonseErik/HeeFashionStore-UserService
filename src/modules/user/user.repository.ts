@@ -100,7 +100,7 @@ class UserReponsitory {
     return false;
   }
 
-  async getAll(limit: number = 12, page: number = 1, types: Array<number> = [0, 1]) {
+  async getAll(limit: number = 12, page: number = 1, types: any) {
     return UserModel.paginate({
       isDeleted: false,
       isSuperAdmin: false,
@@ -153,7 +153,7 @@ class UserReponsitory {
     }).select('-_id -createdAt -updatedAt -__v -isDeleted -firstName -type -emailVerifycode');
   }
 
-  async search(keyword: string = '', limit: number = 12, page: number = 1, types: Array<number> = [0, 1]) {
+  async search(keyword: string = '', limit: number = 12, page: number = 1, types: any) {
     const regex = new RegExp(keyword, 'i')
     return UserModel.paginate({
       isDeleted: false,

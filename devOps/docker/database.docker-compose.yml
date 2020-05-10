@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  mongodb_backend:
+    image: bitnami/mongodb:latest
+    container_name: "mongodb_backend"
+    restart: always
+    volumes:
+      - backend:/bitnami:rw
+    ports:
+      - 27017:27017
+    environment:
+      - MONGODB_PORT_NUMBER=27017
+      - MONGODB_USERNAME=tung
+      - MONGODB_PASSWORD=tung
+      - MONGODB_DATABASE=hee-fashion-shop
+      - ALLOW_EMPTY_PASSWORD=false
+      - MONGODB_ROOT_PASSWORD=tung
+volumes: 
+  backend:
+    name: "backend"

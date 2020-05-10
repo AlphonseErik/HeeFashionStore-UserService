@@ -57,6 +57,7 @@
   },
   "include": [
     "*.ts",
+    "src/modules/**/*.json",
     "src/utils/*.json"
   ]
 }

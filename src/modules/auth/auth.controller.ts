@@ -25,12 +25,17 @@ class AuthController extends BaseController {
   async signIn(req: any, res: any, next: any) {
     try {
       const { username, password } = req.body;
+      console.log(req.body)
       if (!username || !password) {
         throw new BadRequestException(ERR_MISSING_INPUT);
       }
       let user = await this.userRepository.getUserByUserNameAndPassword(username);
+      console.log(user)
+      if (user === null) {
+        throw new BadRequestException(USER_NOT_FOUND);
+      }
       if (!(user && user.comparePassword(password))) {
-        throw new UnauthorizedException(USER_NOT_FOUND);
+        throw new BadRequestException(USER_NOT_FOUND);
       }
       console.log(user);
       // store token

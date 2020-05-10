@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  backend:
+    ports:
+      - 10000:10000
+    build:
+      context: ../../
+      dockerfile: "devOps/docker/Dockerfile"
+    container_name: "backend"
+    restart: always
+    environment:
+      - NODE_ENV=devlopment
+      - PORT=10000
+      - MONGO_URL=mongodb+srv://tung:tung@heefashionshop-o0lxg.mongodb.net/hee-fashion-shop?retryWrites=true&w=majority
