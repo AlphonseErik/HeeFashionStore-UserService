@@ -1,12 +1,13 @@
 import express from 'express';
 
 import ProductController from './product.controller';
+import { verifyAccessToken } from '../../middlewares';
 
 
 const router = express.Router();
 const productController = new ProductController();
 
-router.post('/', productController.createProduct);
+router.post('/',verifyAccessToken(), productController.createProduct);
 router.get('/', productController.getAllProduct);
 router.get('/newstyle', productController.getNewStyle);
 router.get('/:id', productController.getProduct);

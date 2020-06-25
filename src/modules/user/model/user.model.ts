@@ -27,17 +27,9 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    address: {
-        type: String,
-        default: '',
-    },
     phone: {
         type: String,
         default: '',
-    },
-    isLongtimeCustomer: {
-        type: Boolean,
-        default: false,
     },
     email: {
         type: String,
@@ -47,18 +39,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    isActive: {
-        type: Boolean,
-        default: true,
-    },
     isSuperAdmin: {
         type: Boolean,
         default: false,
-    },
-    type: {
-        type: Number,
-        default: 0,
-    },
+    }
 }, {
     timestamps: true,
 });

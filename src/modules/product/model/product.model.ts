@@ -33,18 +33,6 @@ const ProductSchema = new Schema({
         type: Date,
         default: Date.now,
     },
-    hotStyle: {
-        type: Boolean,
-        default: false
-    },
-    isNewest: {
-        type: Boolean,
-        default: true,
-    },
-    size: {
-        type: String,
-        default: 'M',
-    },
     isDeleted: {
         type: Boolean,
         default: false,

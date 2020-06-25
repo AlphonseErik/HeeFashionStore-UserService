@@ -81,6 +81,8 @@ class OrderController extends BaseController {
       next(err)
     }
   }
+
+  async getByChart(){}
 }
 
 export default OrderController;

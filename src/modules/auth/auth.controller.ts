@@ -40,6 +40,8 @@ class AuthController extends BaseController {
       console.log(user);
       // store token
       let userID = user.ID;
+      let userFullName = user.fullName;
+      let isSuperAdmin = user.isSuperAdmin;
       let expirationDate = moment().add(2, 'day');
       // Generate token
       let accesstoken = sha256(`${userID}-${moment()}`)
@@ -54,7 +56,10 @@ class AuthController extends BaseController {
       return res.json({
         accesstoken,
         expirationDate,
-        user,
+        user: {
+          fullName: userFullName,
+          isSuperAdmin,
+        },
       });
     } catch (error) {
       next(error);

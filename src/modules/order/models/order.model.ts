@@ -20,7 +20,7 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    default: "SUCCESS",
+    default: "",
   },
   isDeleted: {
     type: Boolean,
